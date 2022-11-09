@@ -13,8 +13,16 @@ describe("Dune", function () {
     return { dune, alice, bob };
   }
 
+  describe("Deployments", function () {
+    it("Should deploy Dune.sol", async function () {
+      const { dune, alice, bob } = await loadFixture(deployContractsFixture);
+      await dune.connect(alice as any).mint(alice.address, parseEther('10000'));
+      await dune.connect(alice as any).transfer(bob.address, parseEther('1'));
+      expect(await dune.balanceOf(bob.address)).to.equal(parseEther('1'));
+    });
+  });
   describe("Interactions", function () {
-    it("Should transfer 1 EUR from Alice to Bob", async function () {
+    it("Should transfer 1 DUNE from Alice to Bob", async function () {
       const { dune, alice, bob } = await loadFixture(deployContractsFixture);
       await dune.connect(alice as any).mint(alice.address, parseEther('10000'));
       await dune.connect(alice as any).transfer(bob.address, parseEther('1'));
